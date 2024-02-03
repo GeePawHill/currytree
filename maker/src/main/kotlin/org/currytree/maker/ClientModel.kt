@@ -1,6 +1,20 @@
 package org.currytree.maker
 
-class ClientModel {
+import androidx.compose.runtime.mutableStateOf
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-    val pageTree = "Welcome!"
+class ClientModel(val connection: DirectConnection) {
+    fun changeWelcome() {
+        pageTree.value = "Hi Mom!"
+    }
+
+    val pageTree = mutableStateOf("...")
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            pageTree.value = connection.fetchUserRoot()
+        }
+    }
 }
