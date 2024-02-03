@@ -15,17 +15,18 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 
 fun main() {
+    val model = ClientModel()
     application {
         Window(
             onCloseRequest = ::exitApplication
         ) {
-            ClientView()
+            ClientView(model)
         }
     }
 }
 
 @Composable
-fun ClientView() {
+fun ClientView(model: ClientModel) {
     Column(modifier = Modifier.width(800.dp)) {
     Row {
         TopAppBar {
@@ -36,7 +37,7 @@ fun ClientView() {
     }
     Row(modifier = Modifier.defaultMinSize(800.dp,400.dp)) {
         Column(modifier = Modifier.weight(0.3f, true)) {
-            Text("Welcome!")
+            Text(model.pageTree)
         }
         Column(modifier = Modifier.weight(0.5f, true)) {
             Text("BODY")
