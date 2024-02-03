@@ -1,7 +1,7 @@
 package org.currytree.maker
 
-class DirectConnection {
+class DirectConnection(val server: Server) {
     suspend fun fetchUserRoot(): String {
-        return "Welcome!"
+        return server.fetchUserRoot()
     }
 }
