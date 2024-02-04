@@ -55,8 +55,8 @@ fun ClientView(model: ClientModel) {
         }
         Row(modifier = Modifier.defaultMinSize(800.dp, 400.dp)) {
             Column(modifier = Modifier.weight(0.3f, true)) {
-                val text by remember { model.pageTree }
-                Text(text)
+                val header by remember { model.pageTree }
+                Text(header.title)
             }
             Column(modifier = Modifier.weight(0.5f, true)) {
                 Text("BODY")

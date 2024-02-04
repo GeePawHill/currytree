@@ -6,11 +6,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ClientModel(val connection: DirectConnection) {
+    val pageTree = mutableStateOf(PageHeader.PENDING)
+
     fun changeWelcome() {
-        pageTree.value = "Hi Mom!"
+        pageTree.value = PageHeader("Hi Mom!")
     }
 
-    val pageTree = mutableStateOf("...")
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
