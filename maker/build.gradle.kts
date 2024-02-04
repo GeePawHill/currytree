@@ -11,6 +11,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC")
     implementation(project(":common"))
+    implementation(project(":business"))
 }
 
 kotlin {
@@ -26,10 +27,6 @@ repositories {
     google()
 }
 
-dependencies {
-    implementation(compose.desktop.currentOs)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-}
 
 compose.desktop {
     application {
