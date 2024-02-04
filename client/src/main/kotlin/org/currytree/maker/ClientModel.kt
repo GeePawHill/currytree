@@ -11,6 +11,7 @@ class ClientModel(val connection: Connection) {
     fun changeWelcome() {
         pageTree.clear()
         pageTree.add(PageHeader("Hi Mom!"))
+        pageTree.add(PageHeader("Oh, and Dad, too!"))
     }
 
     init {

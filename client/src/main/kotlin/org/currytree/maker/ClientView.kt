@@ -4,17 +4,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import compose.icons.fontawesomeicons.RegularGroup
+import compose.icons.fontawesomeicons.regular.CommentDots
 
 @Composable
 fun ClientView(model: ClientModel) {
@@ -31,7 +37,20 @@ fun ClientView(model: ClientModel) {
                 val headers = remember { model.pageTree }
                 LazyColumn {
                     items(headers) {
-                        Text(it.title)
+                        Row {
+                            Icon(
+                                RegularGroup.CommentDots,
+                                "Comments",
+                                Modifier
+                                    .size(28.dp)
+                                    .padding(4.dp)
+                            )
+                            Text(
+                                it.title,
+                                Modifier.padding(4.dp),
+                                fontSize = TextUnit(20f, TextUnitType.Sp)
+                            )
+                        }
                     }
                 }
             }
