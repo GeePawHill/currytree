@@ -1,2 +1,2 @@
 rootProject.name = "currytree"
-include("maker")
+include("maker", "common")
