@@ -12,7 +12,6 @@ class ClientModel(val connection: Connection) {
         pageTree.value = PageHeader("Hi Mom!")
     }
 
-
     init {
         CoroutineScope(Dispatchers.IO).launch {
             pageTree.value = connection.fetchUserRoot()
