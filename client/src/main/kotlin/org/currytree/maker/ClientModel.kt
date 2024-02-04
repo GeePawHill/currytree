@@ -1,20 +1,22 @@
 package org.currytree.maker
 
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ClientModel(val connection: Connection) {
-    val pageTree = mutableStateOf(PageHeader.PENDING)
+    val pageTree = mutableStateListOf(PageHeader.PENDING)
 
     fun changeWelcome() {
-        pageTree.value = PageHeader("Hi Mom!")
+        pageTree.clear()
+        pageTree.add(PageHeader("Hi Mom!"))
     }
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            pageTree.value = connection.fetchUserRoot()
+            pageTree.clear()
+            pageTree.add(connection.fetchUserRoot())
         }
     }
 }
