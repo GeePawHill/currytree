@@ -10,8 +10,12 @@ class ClientModel(val connection: Connection) {
 
     fun changeWelcome() {
         pageTree.clear()
-        pageTree.add(PageHeader("Hi Mom!"))
-        pageTree.add(PageHeader("Oh, and Dad, too!"))
+        pageTree.add(PageHeader("Hi Mom!", true))
+        pageTree.add(PageHeader("Oh, and Dad, too!", false, 1))
+    }
+
+    fun expanded(pageHeader: PageHeader, nowExpanded: Boolean) {
+        println("Expanded -> ${pageHeader.title} = $nowExpanded")
     }
 
     init {
