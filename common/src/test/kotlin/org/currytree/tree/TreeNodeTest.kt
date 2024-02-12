@@ -1,4 +1,4 @@
-package org.currytree.maker.tree
+package org.currytree.tree
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

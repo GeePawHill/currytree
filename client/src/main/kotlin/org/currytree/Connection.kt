@@ -1,4 +1,4 @@
-package org.currytree.maker
+package org.currytree
 
 interface Connection {
     suspend fun fetchUserRoot(): PageHeader

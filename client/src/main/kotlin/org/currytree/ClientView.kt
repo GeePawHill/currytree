@@ -1,4 +1,4 @@
-package org.currytree.maker
+package org.currytree
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -70,6 +70,13 @@ fun ClientView(model: ClientModel) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun UiTreeView(item: UiTreeNode, onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit) {
+    Row {
+
     }
 }
 

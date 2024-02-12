@@ -1,4 +1,4 @@
-package org.currytree.maker
+package org.currytree
 
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineScope

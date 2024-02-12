@@ -1,4 +1,4 @@
-package org.currytree.maker.tree
+package org.currytree.tree
 
 interface TreeVisitor<ITEM> {
     fun enterParent(node: TreeNode<ITEM>)

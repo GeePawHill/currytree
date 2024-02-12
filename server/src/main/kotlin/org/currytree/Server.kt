@@ -1,4 +1,6 @@
-package org.currytree.maker
+package org.currytree
+
+import org.currytree.business.CurryTree
 
 class Server(val curry: CurryTree) {
 

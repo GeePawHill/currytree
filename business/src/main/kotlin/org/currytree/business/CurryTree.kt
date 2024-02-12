@@ -1,4 +1,6 @@
-package org.currytree.maker
+package org.currytree.business
+
+import org.currytree.PageHeader
 
 class CurryTree {
     fun fetchUserRoot(): PageHeader {

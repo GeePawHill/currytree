@@ -1,4 +1,4 @@
-package org.currytree.maker
+package org.currytree
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import org.currytree.business.CurryTree
 
 fun main() {
     val curryTree = CurryTree()

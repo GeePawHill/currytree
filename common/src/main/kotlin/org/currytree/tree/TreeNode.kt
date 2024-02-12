@@ -1,4 +1,4 @@
-package org.currytree.maker.tree
+package org.currytree.tree
 
 import java.util.function.Predicate
 

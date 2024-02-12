@@ -1,4 +1,4 @@
-package org.currytree.maker.tree
+package org.currytree.tree
 
 interface TreeCursor<ITEM> {
     val items: List<ITEM>

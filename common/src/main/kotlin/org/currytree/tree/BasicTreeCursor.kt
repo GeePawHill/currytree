@@ -1,4 +1,4 @@
-package org.currytree.maker.tree
+package org.currytree.tree
 
 class BasicTreeCursor<ITEM>(override val nodes: List<TreeNode<ITEM>>) : TreeCursor<ITEM> {
     override val items: List<ITEM> get() = nodes.map { it.data }
