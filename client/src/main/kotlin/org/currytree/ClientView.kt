@@ -18,8 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import compose.icons.fontawesomeicons.SolidGroup
 import compose.icons.fontawesomeicons.solid.CaretDown
 import compose.icons.fontawesomeicons.solid.CaretRight
-import compose.icons.fontawesomeicons.solid.Check
 
 @Composable
 fun ClientView(model: ClientModel) {
@@ -80,7 +78,7 @@ private fun UiTreeView(model: ClientModel) {
 
 @Composable
 fun UiTreeItem(item: UiTreeNode, onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit) {
-    Row {
+    Row(verticalAlignment = Alignment.CenterVertically) {
         AltExpanderIcon(item.expandedState) {
             onExpanded(item, it)
         }
@@ -117,7 +115,6 @@ private fun AltExpanderIcon(
                     .size(28.dp)
                     .padding(4.dp)
                     .clickable {
-                        println("Hey.")
                         onExpanded(false)
                     }
             )
@@ -130,76 +127,10 @@ private fun AltExpanderIcon(
                     .size(28.dp)
                     .padding(4.dp)
                     .clickable {
-                        println("Hey.")
                         onExpanded(true)
                     }
             )
-
-
     }
 }
 
 val EXPANDER_SIZE = 28.dp
-
-@Composable
-fun TreeViewItem(item: PageHeader, onExpanded: (pageHeader: PageHeader, nowExpanded: Boolean) -> Unit) {
-    Row {
-        val isExpanded = remember { mutableStateOf(false) }
-        (0 until item.depth).forEach {
-            Spacer(Modifier.size(28.dp, 28.dp))
-        }
-        ExpanderIcon(isExpanded, onExpanded, item)
-        Icon(
-            SolidGroup.Check,
-            "Checkmark",
-            Modifier
-                .size(28.dp)
-                .padding(4.dp)
-        )
-        Text(
-            item.title,
-            Modifier.padding(4.dp),
-            fontSize = TextUnit(20f, TextUnitType.Sp)
-        )
-    }
-}
-
-
-@Composable
-private fun ExpanderIcon(
-    isExpanded: MutableState<Boolean>,
-    onExpanded: (pageHeader: PageHeader, nowExpanded: Boolean) -> Unit,
-    item: PageHeader
-) {
-    if (isExpanded.value) {
-        Icon(
-            SolidGroup.CaretDown,
-            "Expand Button Expanded",
-            Modifier
-                .size(28.dp)
-                .padding(4.dp)
-                .clickable {
-                    println("Hey.")
-                    isExpanded.value = !isExpanded.value
-                    onExpanded(item, isExpanded.value)
-                }
-        )
-    } else {
-        if (item.hasChildren) {
-            Icon(
-                SolidGroup.CaretRight,
-                "Expand Button Expanded",
-                Modifier
-                    .size(28.dp)
-                    .padding(4.dp)
-                    .clickable {
-                        println("Hey.")
-                        isExpanded.value = !isExpanded.value
-                        onExpanded(item, isExpanded.value)
-                    }
-            )
-        } else {
-            Spacer(Modifier.size(28.dp, 28.dp))
-        }
-    }
-}

@@ -25,7 +25,6 @@ class ClientModel(val connection: Connection) {
         } else {
             uiTreeNode.expandedState.value = ExpandedState.Closed
         }
-        println("Expanded -> ${uiTreeNode.title} = $nowExpanded")
     }
 
     init {
