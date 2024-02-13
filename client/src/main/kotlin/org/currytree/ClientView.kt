@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +31,7 @@ import compose.icons.fontawesomeicons.solid.Check
 
 @Composable
 fun ClientView(model: ClientModel) {
-    Column(modifier = Modifier.width(800.dp)) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Row {
             TopAppBar {
                 Button({}) {
