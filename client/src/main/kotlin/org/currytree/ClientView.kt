@@ -41,13 +41,7 @@ fun ClientView(model: ClientModel) {
         }
         Row(modifier = Modifier.defaultMinSize(800.dp, 400.dp)) {
             Column(modifier = Modifier.weight(0.3f, true)) {
-                val headers = remember { model.pageTree }
-                LazyColumn {
-                    items(headers) {
-                        TreeViewItem(it)
-                        { pageHeader, nowExpanded -> model.expanded(pageHeader, nowExpanded) }
-                    }
-                }
+                UiTreeView(model)
             }
             Column(modifier = Modifier.weight(0.5f, true)) {
                 Text("BODY")
@@ -75,11 +69,77 @@ fun ClientView(model: ClientModel) {
 }
 
 @Composable
-fun UiTreeView(item: UiTreeNode, onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit) {
+private fun UiTreeView(model: ClientModel) {
+    LazyColumn {
+        items(model.uiTree.children) {
+            UiTreeItem(it)
+            { uiNode, nowExpanded -> model.expanded(uiNode, nowExpanded) }
+        }
+    }
+}
+
+@Composable
+fun UiTreeItem(item: UiTreeNode, onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit) {
     Row {
+        AltExpanderIcon(item.expandedState) {
+            onExpanded(item, it)
+        }
+        Text(
+            item.title,
+            Modifier.padding(4.dp),
+            fontSize = TextUnit(20f, TextUnitType.Sp)
+        )
+    }
+    if (item.expandedState.value == ExpandedState.Open) {
+        item.children.forEach {
+            Row {
+                Spacer(Modifier.size(EXPANDER_SIZE, EXPANDER_SIZE))
+                UiTreeItem(it, onExpanded)
+            }
+        }
+    }
+}
+
+@Composable
+private fun AltExpanderIcon(
+    expandedState: MutableState<ExpandedState>,
+    onExpanded: (nowExpanded: Boolean) -> Unit
+) {
+    when (expandedState.value) {
+        ExpandedState.None ->
+            Spacer(Modifier.size(EXPANDER_SIZE, EXPANDER_SIZE))
+
+        ExpandedState.Open ->
+            Icon(
+                SolidGroup.CaretDown,
+                "Expand Button Expanded",
+                Modifier
+                    .size(28.dp)
+                    .padding(4.dp)
+                    .clickable {
+                        println("Hey.")
+                        onExpanded(false)
+                    }
+            )
+
+        ExpandedState.Closed ->
+            Icon(
+                SolidGroup.CaretRight,
+                "Expand Button Expanded",
+                Modifier
+                    .size(28.dp)
+                    .padding(4.dp)
+                    .clickable {
+                        println("Hey.")
+                        onExpanded(true)
+                    }
+            )
+
 
     }
 }
+
+val EXPANDER_SIZE = 28.dp
 
 @Composable
 fun TreeViewItem(item: PageHeader, onExpanded: (pageHeader: PageHeader, nowExpanded: Boolean) -> Unit) {
@@ -103,6 +163,7 @@ fun TreeViewItem(item: PageHeader, onExpanded: (pageHeader: PageHeader, nowExpan
         )
     }
 }
+
 
 @Composable
 private fun ExpanderIcon(
