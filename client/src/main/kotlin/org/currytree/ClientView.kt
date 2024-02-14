@@ -70,36 +70,37 @@ fun ClientView(model: ClientModel) {
 private fun UiTreeView(model: ClientModel) {
     LazyColumn {
         items(model.uiTree.children) {
-            UiTreeItem(it)
-            { uiNode, nowExpanded -> model.expanded(uiNode, nowExpanded) }
+            UiTreeItem(it, model::expanded)
         }
     }
 }
 
 @Composable
 fun UiTreeItem(item: UiTreeNode, onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        AltExpanderIcon(item.expandedState) {
-            onExpanded(item, it)
+    Column {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            ExpanderIcon(item.expandedState) {
+                onExpanded(item, it)
+            }
+            Text(
+                item.title,
+                Modifier.padding(4.dp),
+                fontSize = TextUnit(20f, TextUnitType.Sp)
+            )
         }
-        Text(
-            item.title,
-            Modifier.padding(4.dp),
-            fontSize = TextUnit(20f, TextUnitType.Sp)
-        )
-    }
-    if (item.expandedState.value == ExpandedState.Open) {
-        item.children.forEach {
-            Row {
-                Spacer(Modifier.size(EXPANDER_SIZE, EXPANDER_SIZE))
-                UiTreeItem(it, onExpanded)
+        if (item.expandedState.value == ExpandedState.Open) {
+            item.children.forEach {
+                Row {
+                    Spacer(Modifier.size(EXPANDER_SIZE, EXPANDER_SIZE))
+                    UiTreeItem(it, onExpanded)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun AltExpanderIcon(
+private fun ExpanderIcon(
     expandedState: MutableState<ExpandedState>,
     onExpanded: (nowExpanded: Boolean) -> Unit
 ) {
@@ -112,7 +113,7 @@ private fun AltExpanderIcon(
                 SolidGroup.CaretDown,
                 "Expand Button Expanded",
                 Modifier
-                    .size(28.dp)
+                    .size(EXPANDER_SIZE)
                     .padding(4.dp)
                     .clickable {
                         onExpanded(false)
@@ -124,7 +125,7 @@ private fun AltExpanderIcon(
                 SolidGroup.CaretRight,
                 "Expand Button Expanded",
                 Modifier
-                    .size(28.dp)
+                    .size(EXPANDER_SIZE)
                     .padding(4.dp)
                     .clickable {
                         onExpanded(true)

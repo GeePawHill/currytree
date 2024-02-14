@@ -30,10 +30,13 @@ class ClientModel(val connection: Connection) {
     init {
         CoroutineScope(Dispatchers.IO).launch {
             uiTree.children.add(
-                UiTreeNode("Parent 1").apply {
+                UiTreeNode("Grandparent 1").apply {
                     expandedState.value = ExpandedState.Open
-                    children.add(UiTreeNode("Child 1"))
-                    children.add(UiTreeNode("Child 2"))
+                    children.add(UiTreeNode("Parent 1").apply {
+                        expandedState.value = ExpandedState.Closed
+                        children.add(UiTreeNode("Child 1"))
+                        children.add(UiTreeNode("Child 2"))
+                    })
                 }
             )
             uiTree.children.add(
