@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.currytree.uitree.ExpandedState
+import org.currytree.uitree.UiTreeNode
 
 class ClientModel(val connection: Connection) {
     val pageTree = mutableStateListOf(PageHeader.PENDING)

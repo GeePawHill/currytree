@@ -1,4 +1,4 @@
-package org.currytree
+package org.currytree.uitree
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -8,8 +8,3 @@ class UiTreeNode(val title: String) {
     val children = mutableStateListOf<UiTreeNode>()
 }
 
-enum class ExpandedState {
-    None,
-    Open,
-    Closed,
-}
