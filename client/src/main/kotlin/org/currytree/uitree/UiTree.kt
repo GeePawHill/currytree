@@ -1,9 +1,11 @@
 package org.currytree.uitree
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -14,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import compose.icons.fontawesomeicons.SolidGroup
@@ -26,7 +29,7 @@ import org.currytree.ClientModel
 fun UiTreeView(model: ClientModel, body: @Composable (item: UiTreeNode) -> Unit) {
     LazyColumn {
         items(model.uiTree.children) {
-            UiTreeItem(0, it, model::expanded, body)
+            UiTreeItem(0, it, model::expanded, model::select, body)
         }
     }
 }
@@ -36,20 +39,27 @@ fun UiTreeView(model: ClientModel, body: @Composable (item: UiTreeNode) -> Unit)
 fun UiTreeItem(
     indent: Int,
     item: UiTreeNode,
-    onExpanded: (node: UiTreeNode, nowExpanded: Boolean) -> Unit,
+    onExpanded: (node: UiTreeNode) -> Unit,
+    onSelected: (node: UiTreeNode) -> Unit,
     body: @Composable (item: UiTreeNode) -> Unit
 ) {
     Column {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        var modifier = Modifier
+            .clickable {
+                onSelected(item)
+            }
+            .fillMaxWidth()
+        if (item.isSelected.value) modifier = Modifier.background(Color.LightGray)
+        Row(modifier, verticalAlignment = Alignment.CenterVertically) {
             TreeIndentation(indent)
-            TreeExpander(item.expandedState) {
-                onExpanded(item, it)
+            TreeExpander(item.expandedState) { nowExpanded ->
+                onExpanded(item)
             }
             body(item)
         }
         if (item.expandedState.value == ExpandedState.Open) {
             item.children.forEach {
-                UiTreeItem(indent + 1, it, onExpanded, body)
+                UiTreeItem(indent + 1, it, onExpanded, onSelected, body)
             }
         }
     }

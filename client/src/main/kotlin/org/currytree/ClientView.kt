@@ -35,7 +35,7 @@ fun ClientView(model: ClientModel) {
                 }
             }
             Column(modifier = Modifier.weight(0.5f, true)) {
-                Text("BODY")
+                Text(model.selected.value.title)
             }
             Column(modifier = Modifier.weight(0.2f, true)) {
                 Row(Modifier.height(150.dp)) {
@@ -64,7 +64,9 @@ fun ClientView(model: ClientModel) {
 fun TreeBody(item: UiTreeNode) {
     Text(
         item.title,
-        Modifier.padding(4.dp),
+        Modifier
+            .padding(4.dp)
+            .fillMaxWidth(),
         fontSize = TextUnit(18f, TextUnitType.Sp)
     )
 }

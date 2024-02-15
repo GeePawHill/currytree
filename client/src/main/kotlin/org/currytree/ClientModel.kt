@@ -1,6 +1,7 @@
 package org.currytree
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,6 +11,7 @@ import org.currytree.uitree.UiTreeNode
 class ClientModel(val connection: Connection) {
     val pageTree = mutableStateListOf(PageHeader.PENDING)
     val uiTree = UiTreeNode("root")
+    val selected = mutableStateOf(uiTree)
 
     fun changeWelcome() {
         pageTree.clear()
@@ -17,16 +19,18 @@ class ClientModel(val connection: Connection) {
         pageTree.add(PageHeader("Oh, and Dad, too!", false, 1))
     }
 
-    fun expanded(pageHeader: PageHeader, nowExpanded: Boolean) {
-        println("Expanded -> ${pageHeader.title} = $nowExpanded")
+    fun expanded(uiTreeNode: UiTreeNode) {
+        when (uiTreeNode.expandedState.value) {
+            ExpandedState.None -> {}
+            ExpandedState.Open -> uiTreeNode.expandedState.value = ExpandedState.Closed
+            ExpandedState.Closed -> uiTreeNode.expandedState.value = ExpandedState.Open
+        }
     }
 
-    fun expanded(uiTreeNode: UiTreeNode, nowExpanded: Boolean) {
-        if (nowExpanded) {
-            uiTreeNode.expandedState.value = ExpandedState.Open
-        } else {
-            uiTreeNode.expandedState.value = ExpandedState.Closed
-        }
+    fun select(uiTreeNode: UiTreeNode) {
+        selected.value.isSelected.value = false
+        uiTreeNode.isSelected.value = true
+        selected.value = uiTreeNode
     }
 
     init {
