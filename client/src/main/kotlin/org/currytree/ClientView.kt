@@ -35,22 +35,16 @@ fun ClientView(model: ClientModel) {
                 }
             }
             Column(modifier = Modifier.weight(0.5f, true)) {
-                Text(model.selected.value.title)
+                Text(model.selected.value.title, fontSize = TextUnit(22f, TextUnitType.Sp))
             }
             Column(modifier = Modifier.weight(0.2f, true)) {
                 Row(Modifier.height(150.dp)) {
-                    Text("TOC")
+                    Text("TOC Goes Here")
                 }
                 Row() {
                     Column {
                         Button({}, modifier = Modifier.width(200.dp)) {
                             Text("Action 1")
-                        }
-                        Button({}, Modifier.width(200.dp)) {
-                            Text("Action 2")
-                        }
-                        Button({}, Modifier.width(200.dp)) {
-                            Text("Action 3")
                         }
                     }
                 }

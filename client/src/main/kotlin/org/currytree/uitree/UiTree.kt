@@ -44,15 +44,10 @@ fun UiTreeItem(
     body: @Composable (item: UiTreeNode) -> Unit
 ) {
     Column {
-        var modifier = Modifier
-            .clickable {
-                onSelected(item)
-            }
-            .fillMaxWidth()
-        if (item.isSelected.value) modifier = Modifier.background(Color.LightGray)
+        val modifier = selectableModifier(onSelected, item)
         Row(modifier, verticalAlignment = Alignment.CenterVertically) {
             TreeIndentation(indent)
-            TreeExpander(item.expandedState) { nowExpanded ->
+            TreeExpander(item.expandedState) {
                 onExpanded(item)
             }
             body(item)
@@ -65,6 +60,19 @@ fun UiTreeItem(
     }
 }
 
+private fun selectableModifier(
+    onSelected: (node: UiTreeNode) -> Unit,
+    item: UiTreeNode
+): Modifier {
+    var modifier = Modifier
+        .clickable {
+            onSelected(item)
+        }
+        .fillMaxWidth()
+    if (item.isSelected.value) modifier = Modifier.background(Color.LightGray)
+    return modifier
+}
+
 @Composable
 private fun TreeIndentation(indent: Int) {
     Spacer(Modifier.width((indent * INDENT_WIDTH).dp))
@@ -73,7 +81,7 @@ private fun TreeIndentation(indent: Int) {
 @Composable
 private fun TreeExpander(
     expandedState: MutableState<ExpandedState>,
-    onExpanded: (nowExpanded: Boolean) -> Unit
+    onExpanded: () -> Unit
 ) {
     when (expandedState.value) {
         ExpandedState.None -> NoTreeExpander()
@@ -88,29 +96,28 @@ private fun NoTreeExpander() {
 }
 
 @Composable
-private fun ClosedTreeExpander(onExpanded: (nowExpanded: Boolean) -> Unit) {
-    TreeExpanderIcon(SolidGroup.CaretRight, onExpanded, true)
+private fun ClosedTreeExpander(onExpanded: () -> Unit) {
+    TreeExpanderIcon(SolidGroup.CaretRight, onExpanded)
 }
 
 @Composable
-private fun OpenTreeExpander(onExpanded: (nowExpanded: Boolean) -> Unit) {
-    TreeExpanderIcon(SolidGroup.CaretDown, onExpanded, false)
+private fun OpenTreeExpander(onExpanded: () -> Unit) {
+    TreeExpanderIcon(SolidGroup.CaretDown, onExpanded)
 }
 
 @Composable
 private fun TreeExpanderIcon(
     vector: ImageVector,
-    onExpanded: (nowExpanded: Boolean) -> Unit,
-    wantsExpansion: Boolean
+    onExpanded: () -> Unit
 ) {
     Icon(
         vector,
-        "Expand Button Expanded",
+        "Expand Button",
         Modifier
             .size(EXPANDER_SIZE)
             .padding(4.dp)
             .clickable {
-                onExpanded(wantsExpansion)
+                onExpanded()
             }
     )
 }
