@@ -55,9 +55,9 @@ fun ClientView(model: ClientModel) {
 
 
 @Composable
-fun <ITEM> TreeBody(item: UiTreeNode<ITEM>) {
+fun TreeBody(item: UiTreeNode<PageHeader>) {
     Text(
-        item.title.toString(),
+        item.item.title,
         Modifier
             .padding(4.dp)
             .fillMaxWidth(),
