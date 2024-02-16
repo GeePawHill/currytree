@@ -8,6 +8,7 @@ import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
 
 class ClientModel(val connection: Connection) {
+    val selectedBody = mutableStateOf("")
     val uiTree = UiTreeNode("root")
     val selected = mutableStateOf(uiTree)
 
@@ -20,7 +21,7 @@ class ClientModel(val connection: Connection) {
         )
     }
 
-    fun expanded(uiTreeNode: UiTreeNode) {
+    fun <ITEM> expanded(uiTreeNode: UiTreeNode<ITEM>) {
         when (uiTreeNode.expandedState.value) {
             ExpandedState.None -> {}
             ExpandedState.Open -> uiTreeNode.expandedState.value = ExpandedState.Closed
@@ -28,10 +29,11 @@ class ClientModel(val connection: Connection) {
         }
     }
 
-    fun select(uiTreeNode: UiTreeNode) {
+    fun select(uiTreeNode: UiTreeNode<String>) {
         selected.value.isSelected.value = false
         uiTreeNode.isSelected.value = true
         selected.value = uiTreeNode
+        selectedBody.value = uiTreeNode.title.toString()
     }
 
     init {

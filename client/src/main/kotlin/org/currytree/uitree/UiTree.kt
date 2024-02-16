@@ -22,15 +22,14 @@ import androidx.compose.ui.unit.dp
 import compose.icons.fontawesomeicons.SolidGroup
 import compose.icons.fontawesomeicons.solid.CaretDown
 import compose.icons.fontawesomeicons.solid.CaretRight
-import org.currytree.ClientModel
 
 
 @Composable
-fun UiTreeView(
-    root: UiTreeNode,
-    onExpanded: (node: UiTreeNode) -> Unit,
-    onSelected: (node: UiTreeNode) -> Unit,
-    body: @Composable (item: UiTreeNode) -> Unit
+fun <ITEM> UiTreeView(
+    root: UiTreeNode<ITEM>,
+    onExpanded: (node: UiTreeNode<ITEM>) -> Unit,
+    onSelected: (node: UiTreeNode<ITEM>) -> Unit,
+    body: @Composable (item: UiTreeNode<ITEM>) -> Unit
 ) {
     LazyColumn {
         items(root.children) {
@@ -41,12 +40,12 @@ fun UiTreeView(
 
 
 @Composable
-fun UiTreeItem(
+fun <ITEM> UiTreeItem(
     indent: Int,
-    item: UiTreeNode,
-    onExpanded: (node: UiTreeNode) -> Unit,
-    onSelected: (node: UiTreeNode) -> Unit,
-    body: @Composable (item: UiTreeNode) -> Unit
+    item: UiTreeNode<ITEM>,
+    onExpanded: (node: UiTreeNode<ITEM>) -> Unit,
+    onSelected: (node: UiTreeNode<ITEM>) -> Unit,
+    body: @Composable (item: UiTreeNode<ITEM>) -> Unit
 ) {
     Column {
         val modifier = selectableModifier(onSelected, item)
@@ -59,15 +58,15 @@ fun UiTreeItem(
         }
         if (item.expandedState.value == ExpandedState.Open) {
             item.children.forEach {
-                UiTreeItem(indent + 1, it, onExpanded, onSelected, body)
+                UiTreeItem<ITEM>(indent + 1, it, onExpanded, onSelected, body)
             }
         }
     }
 }
 
-private fun selectableModifier(
-    onSelected: (node: UiTreeNode) -> Unit,
-    item: UiTreeNode
+private fun <ITEM> selectableModifier(
+    onSelected: (node: UiTreeNode<ITEM>) -> Unit,
+    item: UiTreeNode<ITEM>
 ): Modifier {
     var modifier = Modifier
         .clickable {
