@@ -26,10 +26,15 @@ import org.currytree.ClientModel
 
 
 @Composable
-fun UiTreeView(model: ClientModel, body: @Composable (item: UiTreeNode) -> Unit) {
+fun UiTreeView(
+    root: UiTreeNode,
+    onExpanded: (node: UiTreeNode) -> Unit,
+    onSelected: (node: UiTreeNode) -> Unit,
+    body: @Composable (item: UiTreeNode) -> Unit
+) {
     LazyColumn {
-        items(model.uiTree.children) {
-            UiTreeItem(0, it, model::expanded, model::select, body)
+        items(root.children) {
+            UiTreeItem(0, it, onExpanded, onSelected, body)
         }
     }
 }

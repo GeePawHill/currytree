@@ -30,7 +30,7 @@ fun ClientView(model: ClientModel) {
         }
         Row(modifier = Modifier.defaultMinSize(800.dp, 400.dp)) {
             Column(modifier = Modifier.weight(0.3f, true)) {
-                UiTreeView(model) { item ->
+                UiTreeView(model.uiTree, model::expanded, model::select) { item ->
                     TreeBody(item)
                 }
             }
