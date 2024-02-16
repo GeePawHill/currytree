@@ -1,6 +1,5 @@
 package org.currytree
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -9,14 +8,16 @@ import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
 
 class ClientModel(val connection: Connection) {
-    val pageTree = mutableStateListOf(PageHeader.PENDING)
     val uiTree = UiTreeNode("root")
     val selected = mutableStateOf(uiTree)
 
     fun changeWelcome() {
-        pageTree.clear()
-        pageTree.add(PageHeader("Hi Mom!", true))
-        pageTree.add(PageHeader("Oh, and Dad, too!", false, 1))
+        uiTree.children.add(
+            UiTreeNode("A new title!").apply {
+                expandedState.value = ExpandedState.Closed
+                children.add(UiTreeNode("With a Subpage"))
+            }
+        )
     }
 
     fun expanded(uiTreeNode: UiTreeNode) {
@@ -52,8 +53,6 @@ class ClientModel(val connection: Connection) {
                     children.add(UiTreeNode("Child 4"))
                 }
             )
-            pageTree.clear()
-            pageTree.add(connection.fetchUserRoot())
         }
     }
 }
