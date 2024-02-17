@@ -25,7 +25,24 @@ class ClientModel(val connection: Connection) {
         when (uiTreeNode.expandedState.value) {
             ExpandedState.None -> {}
             ExpandedState.Open -> uiTreeNode.expandedState.value = ExpandedState.Closed
-            ExpandedState.Closed -> uiTreeNode.expandedState.value = ExpandedState.Open
+            ExpandedState.Closed -> {
+                refreshChildren(uiTreeNode)
+                uiTreeNode.expandedState.value = ExpandedState.Open
+            }
+        }
+    }
+
+    fun refreshChildren(uiTreeNode: UiTreeNode<PageHeader>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val toAdd = connection.childrenFor(uiTreeNode.item.slug)
+            uiTreeNode.children.clear()
+            for (header in toAdd) {
+                val new = UiTreeNode(header)
+                if (header.hasChildren) {
+                    new.expandedState.value = ExpandedState.Closed
+                }
+                uiTreeNode.children.add(new)
+            }
         }
     }
 
@@ -37,15 +54,6 @@ class ClientModel(val connection: Connection) {
     }
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            val toAdd = connection.childrenFor("root")
-            for (header in toAdd) {
-                val new = UiTreeNode(header)
-                if (header.hasChildren) {
-                    new.expandedState.value = ExpandedState.Closed
-                }
-                uiTree.children.add(new)
-            }
-        }
+        refreshChildren(uiTree)
     }
 }
