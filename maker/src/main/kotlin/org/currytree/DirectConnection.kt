@@ -5,8 +5,8 @@ class DirectConnection(val server: Server) : Connection {
         return server.fetchUserRoot()
     }
 
-    override suspend fun pagesFor(slug: String): List<PageHeader> {
-        return emptyList()
+    override suspend fun childrenFor(slug: String): List<PageHeader> {
+        return server.childrenFor(slug)
     }
 
 }

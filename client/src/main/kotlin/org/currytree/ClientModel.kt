@@ -38,23 +38,14 @@ class ClientModel(val connection: Connection) {
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            uiTree.children.add(
-                UiTreeNode(PageHeader("Grandparent 1", true)).apply {
-                    expandedState.value = ExpandedState.Open
-                    children.add(UiTreeNode(PageHeader("Parent 1", true)).apply {
-                        expandedState.value = ExpandedState.Closed
-                        children.add(UiTreeNode(PageHeader("Child 1")))
-                        children.add(UiTreeNode(PageHeader("Child 2")))
-                    })
+            val toAdd = connection.childrenFor("root")
+            for (header in toAdd) {
+                val new = UiTreeNode(header)
+                if (header.hasChildren) {
+                    new.expandedState.value = ExpandedState.Closed
                 }
-            )
-            uiTree.children.add(
-                UiTreeNode(PageHeader("Parent 2", true)).apply {
-                    expandedState.value = ExpandedState.Closed
-                    children.add(UiTreeNode(PageHeader("Child 3")))
-                    children.add(UiTreeNode(PageHeader("Child 4")))
-                }
-            )
+                uiTree.children.add(new)
+            }
         }
     }
 }
