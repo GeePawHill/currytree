@@ -58,6 +58,11 @@ class ClientModel(val connection: Connection) {
     init {
         refreshChildren(uiTree)
         body.add(NormalModel(NormalBlock("Hi Mom!")))
+        body.add(
+            NormalModel(
+                NormalBlock("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have.")
+            )
+        )
         body.add(NormalModel(NormalBlock("This is a separate block.")))
     }
 }
