@@ -35,7 +35,7 @@ fun ClientView(model: ClientModel) {
                 }
             }
             Column(modifier = Modifier.weight(0.5f, true)) {
-                Text(model.selectedBody.value, fontSize = TextUnit(22f, TextUnitType.Sp))
+                BodyView(model)
             }
             Column(modifier = Modifier.weight(0.2f, true)) {
                 Row(Modifier.height(150.dp)) {

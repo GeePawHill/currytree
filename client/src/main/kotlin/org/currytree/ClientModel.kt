@@ -1,5 +1,6 @@
 package org.currytree
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ class ClientModel(val connection: Connection) {
     val selectedBody = mutableStateOf("root")
     val uiTree = UiTreeNode(PageHeader("root", true, "root"))
     val selected = mutableStateOf(uiTree)
+    val body = mutableStateListOf<NormalModel>()
 
     fun changeWelcome() {
 //        uiTree.children.add(
@@ -55,5 +57,7 @@ class ClientModel(val connection: Connection) {
 
     init {
         refreshChildren(uiTree)
+        body.add(NormalModel(NormalBlock("Hi Mom!")))
+        body.add(NormalModel(NormalBlock("This is a separate block.")))
     }
 }
