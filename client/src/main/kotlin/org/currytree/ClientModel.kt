@@ -63,6 +63,18 @@ class ClientModel(val connection: Connection) {
                 NormalBlock("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have.")
             )
         )
-        body.add(NormalModel(NormalBlock("This is a separate block.")))
+        body.add(
+            NormalModel(
+                NormalBlock(
+                    "Every word is different.",
+                    listOf(
+                        InlineStyleSpan(0, 5, InlineStyle.bold),
+                        InlineStyleSpan(6, 10, InlineStyle.italic),
+                        InlineStyleSpan(11, 13, InlineStyle.underline),
+                        InlineStyleSpan(14, 23, InlineStyle.code)
+                    )
+                )
+            )
+        )
     }
 }
