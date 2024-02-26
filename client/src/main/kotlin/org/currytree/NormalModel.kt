@@ -17,51 +17,50 @@ import androidx.compose.ui.unit.dp
 
 class NormalModel(block: NormalBlock) {
     val text: MutableState<TextFieldValue>
+    val builder = AnnotatedString.Builder(block.text)
 
     init {
-        val builder = AnnotatedString.Builder(block.text)
-        builder.addStyle(
-            SpanStyle(fontSize = Styles.normalFontSize),
-            0, builder.length
-        )
-        for (span in block.styles) {
-            when (span.style) {
-                InlineStyle.bold -> builder.addStyle(
-                    SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    span.start, span.end
-                )
+        applyBaseStyle()
+        applyInlineStyles(block)
+        text = finalizeAnnotatedString()
+    }
 
-                InlineStyle.code -> {
-                    builder.addStyle(
-                        SpanStyle(
-                            fontFamily = FontFamily.Monospace,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.Red,
-                            background = Color.LightGray,
-                        ),
-                        span.start, span.end
-                    )
-                }
+    private fun finalizeAnnotatedString() = mutableStateOf(TextFieldValue(builder.toAnnotatedString()))
 
-                InlineStyle.underline -> builder.addStyle(
-                    SpanStyle(textDecoration = TextDecoration.Underline),
-                    span.start, span.end
-                )
+    private fun applyInlineStyles(block: NormalBlock) {
+        for (span in block.styles) builder.addStyle(styleSpanFor(span), span.start, span.end)
+    }
 
-                InlineStyle.italic -> builder.addStyle(
-                    SpanStyle(fontStyle = FontStyle.Italic),
-                    span.start, span.end
-                )
+    private fun applyBaseStyle() {
+        builder.addStyle(Styles.normalBase, 0, builder.length)
+    }
 
-            }
+    private fun styleSpanFor(span: InlineStyleSpan): SpanStyle {
+        val toApply = when (span.style) {
+            InlineStyle.bold -> Styles.normalBold
+            InlineStyle.code -> Styles.normalCode
+            InlineStyle.underline -> Styles.normalUnderline
+            InlineStyle.italic -> Styles.normalItalic
         }
-        text = mutableStateOf(TextFieldValue(builder.toAnnotatedString()))
+        return toApply
     }
 }
 
 object Styles {
+    val normalUnderline = SpanStyle(textDecoration = TextDecoration.Underline)
+    val normalBold = SpanStyle(
+        fontWeight = FontWeight.Bold
+    )
+    val normalItalic = SpanStyle(fontStyle = FontStyle.Italic)
+
+    val normalCode = SpanStyle(
+        fontFamily = FontFamily.Monospace,
+        fontWeight = FontWeight.ExtraBold,
+        color = Color.Red,
+        background = Color.LightGray,
+    )
+
     val normalFontSize = TextUnit(20f, TextUnitType.Sp)
+    val normalBase = SpanStyle(fontSize = Styles.normalFontSize)
     val normalPadding = PaddingValues(16.dp, 4.dp, 16.dp, 8.dp)
 }
