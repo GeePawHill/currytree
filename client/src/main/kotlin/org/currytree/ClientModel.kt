@@ -57,21 +57,23 @@ class ClientModel(val connection: Connection) {
 
     init {
         refreshChildren(uiTree)
-        body.add(NormalModel(NormalBlock("Hi Mom!")))
+        body.add(NormalModel(NormalBlock(StyledField("Hi Mom!"))))
         body.add(
             NormalModel(
-                NormalBlock("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have.")
+                NormalBlock(StyledField("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have."))
             )
         )
         body.add(
             NormalModel(
                 NormalBlock(
-                    "Every word is different.",
-                    listOf(
-                        InlineStyleSpan(0, 5, InlineStyle.bold),
-                        InlineStyleSpan(6, 10, InlineStyle.italic),
-                        InlineStyleSpan(11, 13, InlineStyle.underline),
-                        InlineStyleSpan(14, 23, InlineStyle.code)
+                    StyledField(
+                        "Every word is different.",
+                        listOf(
+                            InlineStyleSpan(0, 5, InlineStyle.bold),
+                            InlineStyleSpan(6, 10, InlineStyle.italic),
+                            InlineStyleSpan(11, 13, InlineStyle.underline),
+                            InlineStyleSpan(14, 23, InlineStyle.code)
+                        )
                     )
                 )
             )

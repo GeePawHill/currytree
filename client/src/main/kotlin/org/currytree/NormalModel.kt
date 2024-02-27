@@ -28,7 +28,7 @@ class NormalModel(block: NormalBlock) {
     private fun finalizeAnnotatedString() = mutableStateOf(TextFieldValue(builder.toAnnotatedString()))
 
     private fun applyInlineStyles(block: NormalBlock) {
-        for (span in block.styles) builder.addStyle(styleSpanFor(span), span.start, span.end)
+        for (span in block.spans) builder.addStyle(styleSpanFor(span), span.start, span.end)
     }
 
     private fun applyBaseStyle() {
