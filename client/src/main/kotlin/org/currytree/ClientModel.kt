@@ -5,6 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.currytree.normal.BlockModel
+import org.currytree.blocks.BlockModelFactory
+import org.currytree.blocks.CodeBlock
+import org.currytree.code.CodeModel
+import org.currytree.blocks.NormalBlock
+import org.currytree.normal.NormalModel
 import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
 

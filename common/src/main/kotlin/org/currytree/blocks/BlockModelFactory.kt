@@ -1,4 +1,4 @@
-package org.currytree
+package org.currytree.blocks
 
 interface BlockModelFactory {
     fun accept(block: NormalBlock)

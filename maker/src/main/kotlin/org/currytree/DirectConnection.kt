@@ -1,5 +1,12 @@
 package org.currytree
 
+import org.currytree.blocks.Block
+import org.currytree.blocks.CodeBlock
+import org.currytree.blocks.InlineStyle
+import org.currytree.blocks.InlineStyleSpan
+import org.currytree.blocks.NormalBlock
+import org.currytree.blocks.StyledField
+
 class DirectConnection(val server: Server) : Connection {
 
     private val someBlocks = mutableListOf<NormalBlock>()

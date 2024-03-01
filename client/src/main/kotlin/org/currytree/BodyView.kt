@@ -11,6 +11,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.currytree.normal.BlockModel
+import org.currytree.code.CodeModel
+import org.currytree.normal.NormalModel
 import org.currytree.styled.Styles
 
 @Composable

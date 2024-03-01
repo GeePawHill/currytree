@@ -10,6 +10,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import org.currytree.code.CodeStyler
+import org.currytree.normal.NormalStyler
 
 object Styles {
     val normalUnderline = SpanStyle(textDecoration = TextDecoration.Underline)

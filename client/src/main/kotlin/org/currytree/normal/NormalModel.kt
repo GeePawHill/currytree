@@ -1,6 +1,7 @@
-package org.currytree
+package org.currytree.normal
 
 import androidx.compose.runtime.mutableStateOf
+import org.currytree.blocks.NormalBlock
 import org.currytree.styled.Styles
 
 interface BlockModel
