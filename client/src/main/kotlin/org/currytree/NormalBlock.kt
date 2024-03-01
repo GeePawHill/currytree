@@ -19,6 +19,4 @@ data class StyledField(val text: String, val spans: List<InlineStyleSpan> = empt
 data class NormalBlock(
     val field: StyledField
 ) {
-    val text = field.text
-    val spans = field.spans
 }
