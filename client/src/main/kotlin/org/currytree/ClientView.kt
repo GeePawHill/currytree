@@ -53,7 +53,7 @@ fun ClientView(model: ClientModel) {
                     .background(SolidColor(Color.Black), shape = RectangleShape, 0.5f)
             )
             Column(modifier = Modifier.weight(0.5f, true)) {
-                BodyView(model)
+                BodyView(model.body)
             }
             Spacer(
                 Modifier

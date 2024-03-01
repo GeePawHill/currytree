@@ -53,30 +53,17 @@ class ClientModel(val connection: Connection) {
         uiTreeNode.isSelected.value = true
         selected.value = uiTreeNode
         selectedBody.value = uiTreeNode.item.toString()
+        CoroutineScope(Dispatchers.IO).launch {
+            val blocks = connection.bodyFor(uiTreeNode.item.slug)
+            body.clear()
+            for (block in blocks) {
+                body.add(NormalModel(block))
+            }
+            println(blocks[0].field.text)
+        }
     }
 
     init {
         refreshChildren(uiTree)
-        body.add(NormalModel(NormalBlock(StyledField("Hi Mom!"))))
-        body.add(
-            NormalModel(
-                NormalBlock(StyledField("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have."))
-            )
-        )
-        body.add(
-            NormalModel(
-                NormalBlock(
-                    StyledField(
-                        "Every word is different.",
-                        listOf(
-                            InlineStyleSpan(0, 5, InlineStyle.bold),
-                            InlineStyleSpan(6, 10, InlineStyle.italic),
-                            InlineStyleSpan(11, 13, InlineStyle.underline),
-                            InlineStyleSpan(14, 23, InlineStyle.code)
-                        )
-                    )
-                )
-            )
-        )
     }
 }

@@ -5,14 +5,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import org.currytree.styled.Styles
 
 @Composable
-fun BodyView(model: ClientModel) {
+fun BodyView(body: SnapshotStateList<NormalModel>) {
     LazyColumn {
-        items(model.body) {
+        items(body) {
             NormalView(it)
         }
     }
@@ -20,11 +20,10 @@ fun BodyView(model: ClientModel) {
 
 @Composable
 fun NormalView(normal: NormalModel) {
-    val text = remember { normal.text }
     BasicTextField(
-        text.value,
+        normal.text.value,
         { new ->
-            text.value = new
+            normal.text.value = new
         },
         Modifier.padding(Styles.normalPadding),
         enabled = true,
