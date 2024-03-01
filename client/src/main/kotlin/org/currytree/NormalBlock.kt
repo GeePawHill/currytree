@@ -16,10 +16,15 @@ data class InlineStyleSpan(val start: Int, val end: Int, val style: InlineStyle)
 data class StyledField(val text: String, val spans: List<InlineStyleSpan> = emptyList())
 
 
-interface Block
+interface Block {
+    fun callMe(blockFactory: BlockModelFactory)
+}
 
 @Serializable
 data class NormalBlock(
     val field: StyledField
 ) : Block {
+    override fun callMe(blockFactory: BlockModelFactory) {
+        blockFactory.accept(this)
+    }
 }

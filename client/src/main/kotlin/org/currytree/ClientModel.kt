@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
 
-class ClientModel(val connection: Connection) {
+class ClientModel(val connection: Connection) : BlockModelFactory {
     val selectedBody = mutableStateOf("root")
     val uiTree = UiTreeNode(PageHeader("root", true, "root"))
     val selected = mutableStateOf(uiTree)
@@ -54,18 +54,26 @@ class ClientModel(val connection: Connection) {
         selected.value = uiTreeNode
         selectedBody.value = uiTreeNode.item.toString()
         CoroutineScope(Dispatchers.IO).launch {
-            val blocks = connection.bodyFor(uiTreeNode.item.slug)
-            body.clear()
-            for (block in blocks) {
-                when (block) {
-                    is NormalBlock -> body.add(NormalModel(block))
-                    is CodeBlock -> body.add(CodeModel(block))
-                }
-            }
+            loadBody(uiTreeNode)
+        }
+    }
+
+    private suspend fun loadBody(uiTreeNode: UiTreeNode<PageHeader>) {
+        body.clear()
+        for (block in connection.bodyFor(uiTreeNode.item.slug)) {
+            block.callMe(this)
         }
     }
 
     init {
         refreshChildren(uiTree)
+    }
+
+    override fun accept(block: NormalBlock) {
+        body.add(NormalModel(block))
+    }
+
+    override fun accept(block: CodeBlock) {
+        body.add(CodeModel(block))
     }
 }
