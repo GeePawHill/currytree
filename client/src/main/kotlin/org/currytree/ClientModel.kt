@@ -12,7 +12,7 @@ class ClientModel(val connection: Connection) {
     val selectedBody = mutableStateOf("root")
     val uiTree = UiTreeNode(PageHeader("root", true, "root"))
     val selected = mutableStateOf(uiTree)
-    val body = mutableStateListOf<NormalModel>()
+    val body = mutableStateListOf<BlockModel>()
 
     fun changeWelcome() {
 //        uiTree.children.add(
@@ -57,9 +57,11 @@ class ClientModel(val connection: Connection) {
             val blocks = connection.bodyFor(uiTreeNode.item.slug)
             body.clear()
             for (block in blocks) {
-                body.add(NormalModel(block))
+                when (block) {
+                    is NormalBlock -> body.add(NormalModel(block))
+                    is CodeBlock -> body.add(CodeModel(block))
+                }
             }
-            println(blocks[0].field.text)
         }
     }
 

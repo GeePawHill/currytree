@@ -3,7 +3,9 @@ package org.currytree
 import androidx.compose.runtime.mutableStateOf
 import org.currytree.styled.Styles
 
-class NormalModel(block: NormalBlock) {
+interface BlockModel
+
+class NormalModel(block: NormalBlock) : BlockModel {
     val text = mutableStateOf(Styles.normalStyler.style(block.field))
 }
 

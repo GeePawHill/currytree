@@ -12,7 +12,11 @@ class DirectConnection(val server: Server) : Connection {
         return server.childrenFor(slug)
     }
 
-    override suspend fun bodyFor(slug: String): List<NormalBlock> {
+    val sampleCode = """class CodeModel(block: NormalBlock) : BlockModel {
+    val code = mutableStateOf(Styles.codeStyler.style(block.field))
+}"""
+
+    override suspend fun bodyFor(slug: String): List<Block> {
         println(slug)
         return listOf(
             NormalBlock(StyledField(slug)),
@@ -28,7 +32,8 @@ class DirectConnection(val server: Server) : Connection {
                         InlineStyleSpan(14, 23, InlineStyle.code)
                     )
                 )
-            )
+            ),
+            CodeBlock(StyledField(sampleCode))
         )
     }
 }

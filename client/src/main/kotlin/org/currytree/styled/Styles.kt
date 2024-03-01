@@ -28,6 +28,8 @@ object Styles {
     val normalFontSize = TextUnit(20f, TextUnitType.Sp)
     val normalBase = SpanStyle(fontSize = normalFontSize)
     val normalPadding = PaddingValues(16.dp, 4.dp, 16.dp, 8.dp)
+    val codeBase = SpanStyle(fontFamily = FontFamily.Monospace, fontSize = normalFontSize)
 
     val normalStyler = NormalStyler()
+    val codeStyler = CodeStyler()
 }
