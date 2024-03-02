@@ -14,8 +14,7 @@ import org.currytree.business.CurryTree
 
 fun main() {
     val curryTree = CurryTree()
-    val server = Server(curryTree)
-    val connection = DirectConnection(server)
+    val connection = DirectConnection(curryTree)
     val model = ClientModel(connection)
     application {
         Window(
