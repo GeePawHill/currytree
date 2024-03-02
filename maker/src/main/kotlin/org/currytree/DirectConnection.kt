@@ -6,6 +6,8 @@ import org.currytree.business.CurryTree
 
 class DirectConnection(val business: CurryTree) : Connection {
 
+    private val responder = DirectResponder()
+
     private val someBlocks = mutableListOf<NormalBlock>()
 
     override suspend fun fetchUserRoot(): PageHeader {
