@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -18,10 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -65,7 +61,7 @@ fun ClientView(model: ClientModel) {
                 Row(Modifier.height(150.dp)) {
                     Text("TOC Goes Here")
                 }
-                Row() {
+                Row {
                     Column {
                         Button({}, modifier = Modifier.width(200.dp)) {
                             Text("Action 1")
@@ -74,21 +70,6 @@ fun ClientView(model: ClientModel) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun getRightLineShape(lineThicknessDp: Dp): Shape {
-    val lineThicknessPx = with(LocalDensity.current) { lineThicknessDp.toPx() }
-    return GenericShape { size, _ ->
-        // 1) Bottom-left corner
-        moveTo(0f, size.height)
-        // 2) Bottom-right corner
-        lineTo(size.width, size.height)
-        // 3) Top-right corner
-        lineTo(size.width, size.height - lineThicknessPx)
-        // 4) Top-left corner
-        lineTo(0f, size.height - lineThicknessPx)
     }
 }
 

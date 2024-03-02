@@ -29,7 +29,7 @@ fun main() {
 fun MakerView(model: ClientModel) {
     Column(Modifier.fillMaxWidth()) {
         Row(Modifier.fillMaxWidth()) {
-            Button(model::changeWelcome) {
+            Button({ }) {
                 Text("Change it.", color = Color.Yellow)
             }
         }

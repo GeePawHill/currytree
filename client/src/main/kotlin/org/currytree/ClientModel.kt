@@ -5,29 +5,40 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.currytree.normal.BlockModel
+import kotlinx.coroutines.withContext
+import org.currytree.blocks.Block
 import org.currytree.blocks.BlockModelFactory
 import org.currytree.blocks.CodeBlock
-import org.currytree.code.CodeModel
 import org.currytree.blocks.NormalBlock
+import org.currytree.code.CodeModel
+import org.currytree.normal.BlockModel
 import org.currytree.normal.NormalModel
 import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
 
-class ClientModel(val connection: Connection) : BlockModelFactory {
-    val selectedBody = mutableStateOf("root")
+
+class LocalBlockModelFactory : BlockModelFactory {
+    val body = mutableListOf<BlockModel>()
+
+    override fun accept(block: NormalBlock) {
+        body.add(NormalModel(block))
+    }
+
+    override fun accept(block: CodeBlock) {
+        body.add(CodeModel(block))
+    }
+
+    fun makeBodyFrom(bodyFor: List<Block>) {
+        body.clear()
+        bodyFor.forEach { it.callMe(this) }
+    }
+}
+
+class ClientModel(private val connection: Connection) {
+    private val factory = LocalBlockModelFactory()
     val uiTree = UiTreeNode(PageHeader("root", true, "root"))
     val selected = mutableStateOf(uiTree)
     val body = mutableStateListOf<BlockModel>()
-
-    fun changeWelcome() {
-//        uiTree.children.add(
-//            UiTreeNode("A new title!").apply {
-//                expandedState.value = ExpandedState.Closed
-//                children.add(UiTreeNode("With a Subpage"))
-//            }
-//        )
-    }
 
     fun expanded(uiTreeNode: UiTreeNode<PageHeader>) {
         when (uiTreeNode.expandedState.value) {
@@ -40,16 +51,16 @@ class ClientModel(val connection: Connection) : BlockModelFactory {
         }
     }
 
-    fun refreshChildren(uiTreeNode: UiTreeNode<PageHeader>) {
+    private fun refreshChildren(uiTreeNode: UiTreeNode<PageHeader>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val toAdd = connection.childrenFor(uiTreeNode.item.slug)
-            uiTreeNode.children.clear()
-            for (header in toAdd) {
-                val new = UiTreeNode(header)
-                if (header.hasChildren) {
-                    new.expandedState.value = ExpandedState.Closed
+            val newChildren = connection.childrenFor(uiTreeNode.item.slug).map {
+                UiTreeNode(it).apply {
+                    if (it.hasChildren) expandedState.value = ExpandedState.Closed
                 }
-                uiTreeNode.children.add(new)
+            }
+            withContext(Dispatchers.Main) {
+                uiTreeNode.children.clear()
+                uiTreeNode.children.addAll(newChildren)
             }
         }
     }
@@ -58,16 +69,16 @@ class ClientModel(val connection: Connection) : BlockModelFactory {
         selected.value.isSelected.value = false
         uiTreeNode.isSelected.value = true
         selected.value = uiTreeNode
-        selectedBody.value = uiTreeNode.item.toString()
-        CoroutineScope(Dispatchers.IO).launch {
-            loadBody(uiTreeNode)
-        }
+        loadBody(uiTreeNode.item.slug)
     }
 
-    private suspend fun loadBody(uiTreeNode: UiTreeNode<PageHeader>) {
-        body.clear()
-        for (block in connection.bodyFor(uiTreeNode.item.slug)) {
-            block.callMe(this)
+    private fun loadBody(slug: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            factory.makeBodyFrom(connection.bodyFor(slug))
+            withContext(Dispatchers.Main) {
+                body.clear()
+                body.addAll(factory.body)
+            }
         }
     }
 
@@ -75,11 +86,5 @@ class ClientModel(val connection: Connection) : BlockModelFactory {
         refreshChildren(uiTree)
     }
 
-    override fun accept(block: NormalBlock) {
-        body.add(NormalModel(block))
-    }
 
-    override fun accept(block: CodeBlock) {
-        body.add(CodeModel(block))
-    }
 }
