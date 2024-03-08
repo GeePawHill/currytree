@@ -1,6 +1,6 @@
 package org.currytree.tree
 
-interface TreeCursor<ITEM> {
+interface TreeLocation<ITEM> {
     val items: List<ITEM>
     val nodes: List<TreeNode<ITEM>>
     val parentNode: TreeNode<ITEM>

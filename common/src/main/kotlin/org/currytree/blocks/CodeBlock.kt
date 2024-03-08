@@ -1,6 +1,7 @@
 package org.currytree.blocks
 
 import kotlinx.serialization.Serializable
+import org.currytree.styled.StyledField
 
 @Serializable
 data class CodeBlock(

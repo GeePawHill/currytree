@@ -2,10 +2,10 @@ package org.currytree.business
 
 import org.currytree.PageHeader
 import org.currytree.blocks.CodeBlock
-import org.currytree.blocks.InlineStyle
-import org.currytree.blocks.InlineStyleSpan
+import org.currytree.styled.InlineStyle
+import org.currytree.styled.InlineStyleSpan
 import org.currytree.blocks.NormalBlock
-import org.currytree.blocks.StyledField
+import org.currytree.styled.StyledField
 import org.currytree.io.Responder
 
 class CurryTree {

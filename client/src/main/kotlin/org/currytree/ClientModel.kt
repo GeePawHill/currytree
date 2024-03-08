@@ -6,33 +6,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.currytree.blocks.Block
-import org.currytree.blocks.BlockModelFactory
-import org.currytree.blocks.CodeBlock
-import org.currytree.blocks.NormalBlock
-import org.currytree.code.CodeModel
 import org.currytree.normal.BlockModel
-import org.currytree.normal.NormalModel
 import org.currytree.uitree.ExpandedState
 import org.currytree.uitree.UiTreeNode
+import org.currytree.utility.reloadFrom
 
-
-class LocalBlockModelFactory : BlockModelFactory {
-    val body = mutableListOf<BlockModel>()
-
-    override fun accept(block: NormalBlock) {
-        body.add(NormalModel(block))
-    }
-
-    override fun accept(block: CodeBlock) {
-        body.add(CodeModel(block))
-    }
-
-    fun makeBodyFrom(bodyFor: List<Block>) {
-        body.clear()
-        bodyFor.forEach { it.callMe(this) }
-    }
-}
 
 class ClientModel(private val connection: Connection) {
     private val factory = LocalBlockModelFactory()
@@ -53,16 +31,20 @@ class ClientModel(private val connection: Connection) {
 
     private fun refreshChildren(uiTreeNode: UiTreeNode<PageHeader>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val newChildren = connection.childrenFor(uiTreeNode.item.slug).map {
-                UiTreeNode(it).apply {
-                    if (it.hasChildren) expandedState.value = ExpandedState.Closed
-                }
-            }
+            val newChildren = childrenToTreeNodes(uiTreeNode)
             withContext(Dispatchers.Main) {
-                uiTreeNode.children.clear()
-                uiTreeNode.children.addAll(newChildren)
+                uiTreeNode.children.reloadFrom(newChildren)
             }
         }
+    }
+
+    private suspend fun childrenToTreeNodes(uiTreeNode: UiTreeNode<PageHeader>): List<UiTreeNode<PageHeader>> {
+        val newChildren = connection.childrenFor(uiTreeNode.item.slug).map {
+            UiTreeNode(it).apply {
+                if (it.hasChildren) expandedState.value = ExpandedState.Closed
+            }
+        }
+        return newChildren
     }
 
     fun select(uiTreeNode: UiTreeNode<PageHeader>) {
@@ -85,6 +67,4 @@ class ClientModel(private val connection: Connection) {
     init {
         refreshChildren(uiTree)
     }
-
-
 }

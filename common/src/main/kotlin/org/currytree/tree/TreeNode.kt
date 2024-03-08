@@ -29,20 +29,20 @@ data class TreeNode<ITEM>(val data: ITEM) {
         _children.remove(child)
     }
 
-    fun find(predicate: Predicate<ITEM>): TreeCursor<ITEM> {
+    fun find(predicate: Predicate<ITEM>): TreeLocation<ITEM> {
         if (predicate.test(this.data)) {
-            return BasicTreeCursor(listOf(this))
+            return BasicTreeLocation(listOf(this))
         }
         for (child in children) {
             val hit = child.find(predicate)
             if (hit.isValid()) {
-                return BasicTreeCursor(this, hit)
+                return BasicTreeLocation(this, hit)
             }
         }
-        return BasicTreeCursor(emptyList())
+        return BasicTreeLocation(emptyList())
     }
 
-    fun find(target: ITEM): TreeCursor<ITEM> = find { it == target }
+    fun find(target: ITEM): TreeLocation<ITEM> = find { it == target }
 
     fun visit(visitor: TreeVisitor<ITEM>) {
         if (children.isEmpty()) {

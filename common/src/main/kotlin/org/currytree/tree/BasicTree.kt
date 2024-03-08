@@ -10,7 +10,7 @@ class BasicTree<ITEM>(rootItem: ITEM) : Tree<ITEM> {
         root.visit(visitor)
     }
 
-    override fun find(predicate: Predicate<ITEM>): TreeCursor<ITEM> {
+    override fun find(predicate: Predicate<ITEM>): TreeLocation<ITEM> {
         return root.find { predicate.test(it) }
     }
 }

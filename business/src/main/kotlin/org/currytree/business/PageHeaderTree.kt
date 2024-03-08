@@ -3,7 +3,7 @@ package org.currytree.business
 import org.currytree.PageHeader
 import org.currytree.tree.BasicTree
 import org.currytree.tree.Tree
-import org.currytree.tree.TreeCursor
+import org.currytree.tree.TreeLocation
 import org.currytree.tree.TreeNode
 
 typealias PageHeaderNode = TreeNode<PageHeader>
@@ -27,7 +27,7 @@ class PageHeaderTree(
         add(parent2.slug, PageHeader("Child 4"))
     }
 
-    fun find(slug: String): TreeCursor<PageHeader> {
+    fun find(slug: String): TreeLocation<PageHeader> {
         return find { slug == it.slug }
     }
 

@@ -1,6 +1,6 @@
 package org.currytree.tree
 
-class BasicTreeCursor<ITEM>(override val nodes: List<TreeNode<ITEM>>) : TreeCursor<ITEM> {
+class BasicTreeLocation<ITEM>(override val nodes: List<TreeNode<ITEM>>) : TreeLocation<ITEM> {
     override val items: List<ITEM> get() = nodes.map { it.data }
     override val parentNode: TreeNode<ITEM> get() = nodes.dropLast(1).last()
     override val parent: ITEM get() = parentNode.data
@@ -9,6 +9,6 @@ class BasicTreeCursor<ITEM>(override val nodes: List<TreeNode<ITEM>>) : TreeCurs
 
     override fun isValid(): Boolean = nodes.isNotEmpty()
 
-    constructor(node: TreeNode<ITEM>, other: TreeCursor<ITEM>) :
+    constructor(node: TreeNode<ITEM>, other: TreeLocation<ITEM>) :
             this(mutableListOf(node).apply { addAll(other.nodes) })
 }

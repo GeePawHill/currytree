@@ -3,9 +3,9 @@ package org.currytree.code
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import org.currytree.blocks.InlineStyle
-import org.currytree.blocks.InlineStyleSpan
-import org.currytree.blocks.StyledField
+import org.currytree.styled.InlineStyle
+import org.currytree.styled.InlineStyleSpan
+import org.currytree.styled.StyledField
 import org.currytree.styled.Styles
 
 class CodeStyler {
