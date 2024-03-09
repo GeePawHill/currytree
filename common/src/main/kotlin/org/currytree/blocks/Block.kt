@@ -1,5 +1,8 @@
 package org.currytree.blocks
 
-interface Block {
+import kotlinx.serialization.Serializable
+
+@Serializable
+sealed interface Block {
     fun callMe(blockFactory: BlockModelFactory)
 }
