@@ -14,7 +14,7 @@ class DeletingFileVisitor(root: Path) : SimpleFileVisitor<Path>() {
     }
 
     @Throws(IOException::class)
-    override fun postVisitDirectory(dir: Path, exc: IOException): FileVisitResult {
+    override fun postVisitDirectory(dir: Path, exc: IOException?): FileVisitResult {
         if (root !== dir) {
             dir.toFile().delete()
         }
