@@ -4,8 +4,11 @@ import org.currytree.PageBody
 import java.nio.file.Path
 
 class RamBodyStore : BodyStore {
-    override fun write(path: Path, body: PageBody) {
 
+    private val pathToBody = mutableMapOf<Path, PageBody>()
+
+    override fun write(path: Path, body: PageBody) {
+        pathToBody.put(path, body)
     }
 
     override fun read(path: Path): PageBody {
@@ -13,6 +16,6 @@ class RamBodyStore : BodyStore {
     }
 
     override fun exists(path: Path): Boolean {
-        return false
+        return pathToBody[path] != null
     }
 }
