@@ -1,10 +1,13 @@
 package org.currytree.tree
 
+import kotlinx.serialization.Serializable
 import java.util.function.Predicate
 
 
-class BasicTree<ITEM>(rootItem: ITEM) : Tree<ITEM> {
-    override val root = TreeNode(rootItem)
+@Serializable
+class BasicTree<ITEM>(override val root: TreeNode<ITEM>) : Tree<ITEM> {
+
+    constructor(data: ITEM) : this(TreeNode(data))
 
     override fun visit(visitor: TreeVisitor<ITEM>) {
         root.visit(visitor)

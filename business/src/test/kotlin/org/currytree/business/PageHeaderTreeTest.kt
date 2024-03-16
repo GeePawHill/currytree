@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class PageHeaderTreeTest {
-    val tree = PageHeaderTree()
+    val tree = PageHeaderTree().apply {
+        PageHeaderTree.initForDemo(this)
+    }
 
     @Test
     fun `find by slug`() {

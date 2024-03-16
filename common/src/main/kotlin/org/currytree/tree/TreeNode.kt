@@ -1,7 +1,9 @@
 package org.currytree.tree
 
+import kotlinx.serialization.Serializable
 import java.util.function.Predicate
 
+@Serializable
 data class TreeNode<ITEM>(val data: ITEM) {
     private val _children = mutableListOf<TreeNode<ITEM>>()
     val children: List<TreeNode<ITEM>> get() = _children
