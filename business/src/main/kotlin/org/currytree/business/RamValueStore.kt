@@ -4,7 +4,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import java.nio.file.Path
 
-open class RamValueStore<VALUE : Any>(val clazz: Class<VALUE>) : ValueStore<VALUE> {
+class RamValueStore<VALUE : Any>(val clazz: Class<VALUE>) : ValueStore<VALUE> {
 
     private val pathToBody = mutableMapOf<Path, String>()
 
