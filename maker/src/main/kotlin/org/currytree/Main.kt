@@ -11,9 +11,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import org.currytree.business.CurryTree
+import org.currytree.business.UserRamStore
 
 fun main() {
-    val curryTree = CurryTree()
+    val users = UserRamStore()
+    val curryTree = CurryTree(users)
+    curryTree.initializeForMaker()
     val connection = DirectConnection(curryTree)
     val model = ClientModel(connection)
     application {

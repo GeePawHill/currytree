@@ -22,4 +22,8 @@ class DirectConnection(val business: CurryTree) : Connection {
         business.bodyFor(responder, slug)
         return responder.lastBody as List<Block>
     }
+
+    fun initializeForMaker() {
+        business.initializeForMaker()
+    }
 }
