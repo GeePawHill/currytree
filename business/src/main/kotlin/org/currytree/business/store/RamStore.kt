@@ -1,15 +1,12 @@
-package org.currytree.business
+package org.currytree.business.store
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.serializer
-import org.currytree.tree.BasicTree
-import org.currytree.tree.Tree
+import org.currytree.business.ValueNotFound
 import java.nio.file.Path
 
-class RamValueStore<VALUE : Any>(val clazz: Class<VALUE>) : ValueStore<VALUE> {
+class RamStore<VALUE : Any>(val clazz: Class<VALUE>) : Store<VALUE> {
 
     private val pathToBody = mutableMapOf<Path, String>()
 
@@ -19,7 +16,7 @@ class RamValueStore<VALUE : Any>(val clazz: Class<VALUE>) : ValueStore<VALUE> {
     }
 
     override fun read(path: Path): VALUE {
-        val bodyString = pathToBody.getOrElse(path) { throw BodyNotFound(path) }
+        val bodyString = pathToBody.getOrElse(path) { throw ValueNotFound(path) }
         return clazz.cast(format.decodeFromString(serializer(clazz), bodyString))
     }
 

@@ -1,7 +1,8 @@
-package org.currytree.business
+package org.currytree.business.store
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
+import org.currytree.business.ValueNotFound
 import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file.Files
@@ -10,7 +11,7 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import kotlin.io.path.exists
 
-open class DriveValueStore<VALUE : Any>(val root: Path, val clazz: Class<VALUE>) : ValueStore<VALUE> {
+class DriveStore<VALUE : Any>(val root: Path, val clazz: Class<VALUE>) : Store<VALUE> {
     override fun exists(path: Path): Boolean {
         return root.resolve(path).exists()
     }
@@ -37,7 +38,7 @@ open class DriveValueStore<VALUE : Any>(val root: Path, val clazz: Class<VALUE>)
             val valueString = Files.readString(subpath)
             return clazz.cast(Json.decodeFromString(serializer(clazz), valueString))
         } catch (e: NoSuchFileException) {
-            throw BodyNotFound(subpath)
+            throw ValueNotFound(subpath)
         } catch (e: IOException) {
             throw RuntimeException(e)
         }

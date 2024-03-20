@@ -1,18 +1,18 @@
-package org.currytree.business
+package org.currytree.business.tree
 
 import org.assertj.core.api.Assertions.assertThat
 import org.currytree.PageBody
 import org.currytree.blocks.CodeBlock
 import org.currytree.blocks.NormalBlock
-import org.currytree.business.files.TestFolder
+import org.currytree.business.BodyRamStore
+import org.currytree.business.ValueNotFound
 import org.currytree.styled.StyledField
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 
-class DriveBodyStoreTest {
-    val folder = TestFolder()
-    val store = DriveBodyStore(folder.root)
+class BodyRamStoreTest {
+    val store = BodyRamStore()
     val idunnoPath = Path.of("idunno")
     val idunnoBody = PageBody("idunno", emptyList())
     val realPath = Path.of("real")
@@ -26,22 +26,19 @@ class DriveBodyStoreTest {
     @Test
     fun `exists for non-existent body returns false`() {
         assertThat(store.exists(idunnoPath)).isFalse()
-        folder.destroy()
     }
 
     @Test
     fun `read of non-existent body throws`() {
-        assertThrows(BodyNotFound::class.java) {
+        assertThrows(ValueNotFound::class.java) {
             store.read(idunnoPath)
         }
-        folder.destroy()
     }
 
     @Test
     fun `after writing, the path exists`() {
         store.write(idunnoPath, idunnoBody)
         assertThat(store.exists(idunnoPath)).isTrue()
-        folder.destroy()
     }
 
     @Test
@@ -49,6 +46,5 @@ class DriveBodyStoreTest {
         store.write(realPath, realBody)
         val actual = store.read(realPath)
         assertThat(actual).isEqualTo(realBody)
-        folder.destroy()
     }
 }

@@ -3,13 +3,14 @@ package org.currytree.business
 import org.currytree.PageHeader
 import org.currytree.blocks.CodeBlock
 import org.currytree.blocks.NormalBlock
+import org.currytree.business.store.Store
 import org.currytree.io.Responder
 import org.currytree.styled.InlineStyle
 import org.currytree.styled.InlineStyleSpan
 import org.currytree.styled.StyledField
 import java.nio.file.Path
 
-class CurryTree(private val users: ValueStore<User>) {
+class CurryTree(private val users: Store<User>) {
     val sampleCode = """class CodeModel(block: NormalBlock) : BlockModel {
     val code = mutableStateOf(Styles.codeStyler.style(block.field))
 }"""
