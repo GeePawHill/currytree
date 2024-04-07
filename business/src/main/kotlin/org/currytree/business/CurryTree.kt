@@ -16,36 +16,20 @@ class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
     val code = mutableStateOf(Styles.codeStyler.style(block.field))
 }"""
 
-    val pageHeaderTree = PageHeaderTree()
-
-    fun fetchUserRoot(responder: Responder) {
-        responder.ok(PageHeader("Welcome!"))
+    fun childrenFor(responder: Responder, handle: String, slug: String) {
+        val handlePath = Path.of(handle)
+        if (users.exists(handlePath)) {
+            val user = users.read(handlePath)
+            responder.ok(user.pages.childrenFor(slug))
+        }
     }
 
-    fun childrenFor(responder: Responder, slug: String) {
-        responder.ok(pageHeaderTree.childrenFor(slug))
-    }
-
-    fun bodyFor(responder: Responder, slug: String) {
-        responder.ok(
-            listOf(
-                NormalBlock(StyledField(slug)),
-                NormalBlock(StyledField("Hi Mom!")),
-                NormalBlock(StyledField("This is purposefully a longer block so we can see the effect of the paragraph padding that it needs to have.")),
-                NormalBlock(
-                    StyledField(
-                        "Every word is different.",
-                        listOf(
-                            InlineStyleSpan(0, 5, InlineStyle.bold),
-                            InlineStyleSpan(6, 10, InlineStyle.italic),
-                            InlineStyleSpan(11, 13, InlineStyle.underline),
-                            InlineStyleSpan(14, 23, InlineStyle.code)
-                        )
-                    )
-                ),
-                CodeBlock(StyledField(sampleCode))
-            )
-        )
+    fun bodyFor(responder: Responder, handle: String, slug: String) {
+        val bodyPath = Path.of(slug)
+        if (bodies.exists(bodyPath)) {
+            val body = bodies.read(bodyPath)
+            responder.ok(body.blocks)
+        }
     }
 
     fun initializeForMaker() {

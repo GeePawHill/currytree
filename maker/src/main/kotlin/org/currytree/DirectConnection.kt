@@ -9,12 +9,12 @@ class DirectConnection(val business: CurryTree, val user: String) : Connection {
     private val responder = DirectResponder()
 
     override suspend fun childrenFor(slug: String): List<PageHeader> {
-        business.childrenFor(responder, slug)
+        business.childrenFor(responder, user, slug)
         return responder.lastBody as List<PageHeader>
     }
 
     override suspend fun bodyFor(slug: String): List<Block> {
-        business.bodyFor(responder, slug)
+        business.bodyFor(responder, user, slug)
         return responder.lastBody as List<Block>
     }
 
