@@ -4,7 +4,7 @@ import org.currytree.blocks.Block
 import org.currytree.business.CurryTree
 
 @Suppress("UNCHECKED_CAST")
-class DirectConnection(val business: CurryTree) : Connection {
+class DirectConnection(val business: CurryTree, val user: String) : Connection {
 
     private val responder = DirectResponder()
 
