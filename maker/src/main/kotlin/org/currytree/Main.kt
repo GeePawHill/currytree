@@ -1,15 +1,25 @@
 package org.currytree
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Button
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
+import androidx.compose.material.TabRowDefaults
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.coroutines.launch
 import org.currytree.business.CurryTree
 import org.currytree.business.store.UserRamStore
 
@@ -26,6 +36,7 @@ fun main() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MakerView(model: MakerModel) {
     Column(Modifier.fillMaxWidth()) {
@@ -34,12 +45,52 @@ fun MakerView(model: MakerModel) {
                 Text("Change it.", color = Color.Yellow)
             }
         }
-        Row(Modifier.fillMaxWidth()) {
-            model.clients.forEach {
-                Column(Modifier.fillMaxWidth(.5f)) {
-                    ClientView(it)
-                }
+        val pagerState = rememberPagerState(
+            pageCount = { model.clients.size }
+        )
+        val coroutineScope = rememberCoroutineScope()
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            backgroundColor = Color.LightGray,
+            contentColor = Color.Black,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(
+                        tabPositions[pagerState.currentPage]
+                    ),
+                    height = 4.dp,
+                    color = Color.Magenta
+                )
             }
+        ) {
+            Tab(
+                selected = pagerState.currentPage == 0,
+                text = {
+                    Text("geepaw")
+                },
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(0)
+                    }
+                }
+            )
+            Tab(
+                selected = pagerState.currentPage == 1,
+                text = {
+                    Text("victim")
+                },
+                onClick = {
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(1)
+                    }
+                }
+            )
+        }
+        HorizontalPager(
+            state = pagerState,
+            userScrollEnabled = false
+        ) {
+            ClientView(model.clients[it])
         }
     }
 }
