@@ -3,4 +3,4 @@ package org.currytree.business
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class User(val handle: String)
+data class User(val handle: String, val pages: PageHeaderTree = PageHeaderTree())
