@@ -8,11 +8,6 @@ class DirectConnection(val business: CurryTree) : Connection {
 
     private val responder = DirectResponder()
 
-    override suspend fun fetchUserRoot(): PageHeader {
-        business.fetchUserRoot(responder)
-        return responder.lastBody as PageHeader
-    }
-
     override suspend fun childrenFor(slug: String): List<PageHeader> {
         business.childrenFor(responder, slug)
         return responder.lastBody as List<PageHeader>
