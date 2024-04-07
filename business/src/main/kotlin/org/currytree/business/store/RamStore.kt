@@ -28,6 +28,7 @@ class RamStore<VALUE : Any>(val clazz: Class<VALUE>) : Store<VALUE> {
 
         val format = Json {
             serializersModule = SerializersModule {
+                encodeDefaults = true
             }
         }
     }

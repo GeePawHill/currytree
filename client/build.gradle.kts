@@ -10,7 +10,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
 
 
     implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
