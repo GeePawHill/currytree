@@ -43,3 +43,7 @@ compose.desktop {
         }
     }
 }
+
+tasks.test {
+    useJUnitPlatform()
+}

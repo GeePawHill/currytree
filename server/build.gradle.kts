@@ -23,3 +23,6 @@ repositories {
     google()
 }
 
+tasks.test {
+    useJUnitPlatform()
+}

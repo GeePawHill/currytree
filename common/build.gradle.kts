@@ -13,6 +13,10 @@ kotlin {
     jvmToolchain(17)
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 group = "org.currytree"
 version = "0.0.1-SNAPSHOT"
 
