@@ -12,9 +12,6 @@ import org.currytree.styled.StyledField
 import java.nio.file.Path
 
 class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
-    val sampleCode = """class CodeModel(block: NormalBlock) : BlockModel {
-    val code = mutableStateOf(Styles.codeStyler.style(block.field))
-}"""
 
     fun childrenFor(responder: Responder, handle: String, slug: String) {
         val handlePath = Path.of(handle)
@@ -60,7 +57,13 @@ class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
                         )
                     )
                 ),
-                CodeBlock(StyledField(sampleCode))
+                CodeBlock(
+                    StyledField(
+                        """class CodeModel(block: NormalBlock) : BlockModel {
+                        val code = mutableStateOf(Styles.codeStyler.style(block.field))
+                    }"""
+                    )
+                )
             )
         )
         writeBody(sharedBody)
