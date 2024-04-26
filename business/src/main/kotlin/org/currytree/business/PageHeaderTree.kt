@@ -36,19 +36,4 @@ data class PageHeaderTree(
         if (!found.isValid()) throw SlugNotFoundException(parent)
         return found.leafNode.children.map { it.data }
     }
-
-    companion object {
-        fun initForDemo(tree: PageHeaderTree) {
-            val grandparent = PageHeader("Grandparent 1", true)
-            tree.add("root", grandparent)
-            val parent1 = PageHeader("Parent 1", true)
-            tree.add(grandparent.slug, parent1)
-            tree.add(parent1.slug, PageHeader("Child 1"))
-            tree.add(parent1.slug, PageHeader("Child 2"))
-            val parent2 = PageHeader("Parent 2", true)
-            tree.add("root", parent2)
-            tree.add(parent2.slug, PageHeader("Child 3"))
-            tree.add(parent2.slug, PageHeader("Child 4"))
-        }
-    }
 }

@@ -2,6 +2,7 @@ package org.currytree.business.store
 
 import org.assertj.core.api.Assertions.assertThat
 import org.currytree.business.PageHeaderTree
+import org.currytree.business.PageHeaderTreeTest.Companion.initForDemo
 import org.junit.jupiter.api.Test
 import java.nio.file.Path
 
@@ -9,7 +10,7 @@ class PageTreeRamStoreTest {
     val store = PageTreeRamStore()
     val idunnoPath = Path.of("idunno")
     val idunnoTree = PageHeaderTree().apply {
-        PageHeaderTree.initForDemo(this)
+        initForDemo(this)
     }
 
     @Test
