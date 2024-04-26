@@ -1,7 +1,6 @@
-package org.currytree.business
+package org.currytree.business.store
 
-import org.currytree.business.store.RamStore
-import org.currytree.business.store.Store
+import org.currytree.business.PageHeaderTree
 
 class PageTreeRamStore(
     private val base: Store<PageHeaderTree> = RamStore(PageHeaderTree::class.java)

@@ -1,8 +1,6 @@
-package org.currytree.business
+package org.currytree.business.store
 
 import org.currytree.PageBody
-import org.currytree.business.store.DriveStore
-import org.currytree.business.store.Store
 import java.nio.file.Path
 
 class BodyDriveStore(

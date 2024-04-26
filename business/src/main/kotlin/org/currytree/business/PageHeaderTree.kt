@@ -8,10 +8,6 @@ import org.currytree.tree.TreeNode
 import org.currytree.tree.TreeVisitor
 import java.util.function.Predicate
 
-typealias PageHeaderNode = TreeNode<PageHeader>
-
-class SlugNotFoundException(val slug: String) : RuntimeException("Slug [$slug] not found.")
-
 @Serializable
 data class PageHeaderTree(
     override val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))

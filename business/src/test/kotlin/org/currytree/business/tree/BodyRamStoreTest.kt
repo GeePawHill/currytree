@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.currytree.PageBody
 import org.currytree.blocks.CodeBlock
 import org.currytree.blocks.NormalBlock
-import org.currytree.business.BodyRamStore
 import org.currytree.business.ValueNotFound
+import org.currytree.business.store.BodyRamStore
 import org.currytree.styled.StyledField
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

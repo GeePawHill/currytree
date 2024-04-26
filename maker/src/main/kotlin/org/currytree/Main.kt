@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
-import org.currytree.business.BodyRamStore
 import org.currytree.business.CurryTree
+import org.currytree.business.store.BodyRamStore
 import org.currytree.business.store.UserRamStore
 
 fun main() {
