@@ -22,10 +22,11 @@ import androidx.compose.ui.window.application
 import kotlinx.coroutines.launch
 import org.currytree.business.CurryTree
 import org.currytree.business.store.BodyRamStore
+import org.currytree.business.store.CohortRamStore
 import org.currytree.business.store.UserRamStore
 
 fun main() {
-    val curryTree = CurryTree(UserRamStore(), BodyRamStore())
+    val curryTree = CurryTree(UserRamStore(), BodyRamStore(), CohortRamStore())
     curryTree.initializeForMaker()
     val model = MakerModel(curryTree)
     application {

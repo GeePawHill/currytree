@@ -1,7 +1,6 @@
 package org.currytree.business
 
 import org.currytree.PageBody
-import org.currytree.PageBodyResponse
 import org.currytree.PageHeader
 import org.currytree.blocks.CodeBlock
 import org.currytree.blocks.NormalBlock
@@ -12,7 +11,7 @@ import org.currytree.styled.InlineStyleSpan
 import org.currytree.styled.StyledField
 import java.nio.file.Path
 
-class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
+class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>, val cohorts: Store<Cohort>) {
 
     fun childrenFor(responder: Responder, handle: String, slug: String) {
         val handlePath = Path.of(handle)
@@ -23,14 +22,16 @@ class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
     }
 
     fun bodyFor(responder: Responder, handle: String, slug: String) {
-        val bodyPath = Path.of(slug)
-        if (bodies.exists(bodyPath)) {
-            val body = bodies.read(bodyPath)
-            responder.ok(PageBodyResponse(body.blocks))
+        if (users.exists(Path.of(handle)) && cohorts.exists(Path.of("cohort"))) {
+            val cohort = cohorts.read(Path.of("cohort"))
+            val user = users.read(Path.of(handle))
+            cohort.bodyFor(responder, bodies, user, slug)
         }
     }
 
     fun initializeForMaker() {
+        val cohort = Cohort()
+        cohorts.write(Path.of("cohort"), cohort)
         val geepaw = User("geepaw")
         geepaw.pages.add("root", PageHeader("Welcome GeePaw!"))
         geepaw.pages.add("root", PageHeader("Shared"))
