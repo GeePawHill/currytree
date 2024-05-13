@@ -1,6 +1,7 @@
 package org.currytree.business
 
 import org.currytree.PageBody
+import org.currytree.PageBodyResponse
 import org.currytree.PageHeader
 import org.currytree.blocks.CodeBlock
 import org.currytree.blocks.NormalBlock
@@ -25,7 +26,7 @@ class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>) {
         val bodyPath = Path.of(slug)
         if (bodies.exists(bodyPath)) {
             val body = bodies.read(bodyPath)
-            responder.ok(body.blocks)
+            responder.ok(PageBodyResponse(body.blocks))
         }
     }
 

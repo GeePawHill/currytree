@@ -15,7 +15,8 @@ class DirectConnection(val business: CurryTree, val user: String) : Connection {
 
     override suspend fun bodyFor(slug: String): List<Block> {
         business.bodyFor(responder, user, slug)
-        return responder.lastBody as List<Block>
+        val response = responder.lastBody as PageBodyResponse
+        return response.blocks
     }
 
     fun initializeForMaker() {
