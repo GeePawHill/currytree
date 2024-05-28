@@ -2,17 +2,16 @@ package org.currytree.business
 
 import kotlinx.serialization.Serializable
 import org.currytree.PageHeader
-import org.currytree.tree.Tree
 import org.currytree.tree.TreeLocation
 import org.currytree.tree.TreeNode
 import java.util.function.Predicate
 
 @Serializable
 data class PageHeaderTree(
-    override val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))
-) : Tree<PageHeader> {
+    val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))
+) {
 
-    override fun find(predicate: Predicate<PageHeader>): TreeLocation<PageHeader> {
+    fun find(predicate: Predicate<PageHeader>): TreeLocation<PageHeader> {
         return root.find { predicate.test(it) }
     }
 
