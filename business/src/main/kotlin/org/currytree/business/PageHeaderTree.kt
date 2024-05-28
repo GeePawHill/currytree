@@ -5,17 +5,12 @@ import org.currytree.PageHeader
 import org.currytree.tree.Tree
 import org.currytree.tree.TreeLocation
 import org.currytree.tree.TreeNode
-import org.currytree.tree.TreeVisitor
 import java.util.function.Predicate
 
 @Serializable
 data class PageHeaderTree(
     override val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))
 ) : Tree<PageHeader> {
-
-    override fun visit(visitor: TreeVisitor<PageHeader>) {
-        root.visit(visitor)
-    }
 
     override fun find(predicate: Predicate<PageHeader>): TreeLocation<PageHeader> {
         return root.find { predicate.test(it) }
