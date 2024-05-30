@@ -8,7 +8,7 @@ import java.util.function.Predicate
 
 @Serializable
 data class PageHeaderTree(
-    val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))
+    private val root: TreeNode<PageHeader> = TreeNode(PageHeader("root", true))
 ) {
 
     fun find(predicate: Predicate<PageHeader>): TreeLocation<PageHeader> {
