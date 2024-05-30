@@ -3,8 +3,17 @@ package org.currytree.business
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
+enum class Ability {
+    canEdit,
+    canView
+}
+
+data class Registration(val userId: String, val cohortId: String, val abilities: Set<Ability>)
+
 class RamRegistrar() {
     val userIds = mutableSetOf<String>()
+    val cohortIds = mutableSetOf<String>()
+    val registrations = mutableSetOf<Registration>()
 
     fun allUsers(): Set<String> {
         return userIds
@@ -23,9 +32,22 @@ class RamRegistrar() {
         return userIds.remove(userId)
     }
 
+    fun allCohorts(): Set<String> {
+        return cohortIds
+    }
 
-    fun allCohorts(): List<String> {
-        return emptyList()
+    fun getUserRegistrations(userId: String): List<Registration> {
+        return registrations.filter { registration -> registration.userId == userId }.toList()
+    }
+
+    fun addCohort(cohortId: String): Boolean {
+        cohortIds.add(cohortId)
+        return true
+    }
+
+    fun register(userId: String, cohortId: String, abilities: Set<Ability>) {
+        val new = Registration(userId, cohortId, abilities)
+        registrations.add(new)
     }
 
 }
@@ -54,12 +76,39 @@ class RamRegistrarTest {
     @Test
     fun `has user by id`() {
         assertThat(registrar.hasUser("geepaw")).isFalse()
-        assertThat(registrar.addUser("geepaw")).isTrue()
+        registrar.addUser("geepaw")
         assertThat(registrar.hasUser("geepaw")).isTrue()
+    }
+
+    @Test
+    fun `getUserRegistrations with non-existent user`() {
+        assertThat(registrar.getUserRegistrations("geepaw")).isEmpty()
+    }
+
+    @Test
+    fun `getUserRegistrations with existing unregisterd user`() {
+        registrar.addUser("geepaw")
+        assertThat(registrar.getUserRegistrations("geepaw")).isEmpty()
     }
 
     @Test
     fun `no cohorts`() {
         assertThat(registrar.allCohorts()).isEmpty()
+    }
+
+    @Test
+    fun `add cohort`() {
+        assertThat(registrar.addCohort("some-cohort")).isTrue()
+        assertThat(registrar.allCohorts()).containsExactly("some-cohort")
+    }
+
+    @Test
+    fun `addExistingStudentToExistingCohort`() {
+        registrar.addUser("geepaw")
+        registrar.addCohort("some-cohort")
+        registrar.register("geepaw", "some-cohort", setOf(Ability.canView))
+        assertThat(registrar.getUserRegistrations("geepaw")).containsExactly(
+            Registration("geepaw", "some-cohort", setOf(Ability.canView))
+        )
     }
 }
