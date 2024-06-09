@@ -19,7 +19,11 @@ class DirectResponder : Responder {
         responses.add(Response(200, ""))
     }
 
-    override fun forbidden(message: String) {
-        responses.add(Response(403, message))
+    fun error(code: Int, message: String) {
+        responses.add(Response(code, message))
     }
+
+    override fun forbidden(message: String) = error(403, message)
+
+    override fun conflict(message: String) = error(409, message)
 }

@@ -5,6 +5,7 @@ import org.currytree.business.store.BodyRamStore
 import org.currytree.business.store.CohortRamStore
 import org.currytree.business.store.UserRamStore
 import org.currytree.io.DirectResponder
+import org.currytree.io.Responder
 import org.junit.jupiter.api.Test
 
 class CurryTreeTest {
@@ -28,6 +29,7 @@ class CurryTreeTest {
     fun `initialize won't run twice`() {
         curryTree.initialize(responder, credentials)
         curryTree.initialize(responder, credentials)
+        assertThat(responder.lastCode).isEqualTo(Responder.CONFLICT)
         assertThat(responder.lastBody as String).isEqualTo("This site is already initialized.")
     }
 
