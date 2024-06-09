@@ -14,7 +14,8 @@ import java.nio.file.Path
 class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>, val cohorts: Store<Cohort>) {
 
     fun initialize(responder: Responder, credentials: UserCredentials) {
-        val admin = User(credentials.username)
+        if (users.size != 0) return responder.forbidden("This site is already initialized.")
+        val admin = User(credentials.username, true)
         users.write(Path.of(credentials.username), admin)
         responder.ok()
     }
