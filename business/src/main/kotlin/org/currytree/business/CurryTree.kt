@@ -13,6 +13,12 @@ import java.nio.file.Path
 
 class CurryTree(private val users: Store<User>, val bodies: Store<PageBody>, val cohorts: Store<Cohort>) {
 
+    fun initialize(responder: Responder, credentials: UserCredentials) {
+        val admin = User(credentials.username)
+        users.write(Path.of(credentials.username), admin)
+        responder.ok()
+    }
+
     fun childrenFor(responder: Responder, handle: String, slug: String) {
         val handlePath = Path.of(handle)
         if (users.exists(handlePath)) {

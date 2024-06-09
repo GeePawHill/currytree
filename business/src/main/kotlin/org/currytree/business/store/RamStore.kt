@@ -20,6 +20,9 @@ class RamStore<VALUE : Any>(val clazz: Class<VALUE>) : Store<VALUE> {
         return clazz.cast(format.decodeFromString(serializer(clazz), bodyString))
     }
 
+    override val size: Int
+        get() = pathToBody.size
+
     override fun exists(path: Path): Boolean {
         return pathToBody[path] != null
     }

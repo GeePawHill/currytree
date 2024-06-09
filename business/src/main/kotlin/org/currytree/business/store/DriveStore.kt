@@ -43,4 +43,7 @@ class DriveStore<VALUE : Any>(val root: Path, val clazz: Class<VALUE>) : Store<V
             throw RuntimeException(e)
         }
     }
+
+    override val size: Int
+        get() = TODO("Not yet implemented")
 }

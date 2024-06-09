@@ -103,6 +103,16 @@ class RamRegistrarTest {
     }
 
     @Test
+    fun `add student to cohort`() {
+        registrar.addUser("geepaw")
+        registrar.addCohort("some-cohort")
+        registrar.register("geepaw", "some-cohort", setOf(Ability.canView))
+        assertThat(registrar.getUserRegistrations("geepaw")).containsExactly(
+            Registration("geepaw", "some-cohort", setOf(Ability.canView))
+        )
+    }
+
+    @Test
     fun `addExistingStudentToExistingCohort`() {
         registrar.addUser("geepaw")
         registrar.addCohort("some-cohort")

@@ -1,6 +1,8 @@
 package org.currytree
 
 import org.assertj.core.api.Assertions.assertThat
+import org.currytree.io.DirectResponder
+import org.currytree.io.Response
 import org.junit.jupiter.api.Test
 
 class DirectResponderTest {

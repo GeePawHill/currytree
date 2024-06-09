@@ -2,6 +2,7 @@ package org.currytree
 
 import org.currytree.blocks.Block
 import org.currytree.business.CurryTree
+import org.currytree.io.DirectResponder
 
 @Suppress("UNCHECKED_CAST")
 class DirectConnection(val business: CurryTree, val user: String) : Connection {

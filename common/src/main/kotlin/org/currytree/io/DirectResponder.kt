@@ -1,6 +1,4 @@
-package org.currytree
-
-import org.currytree.io.Responder
+package org.currytree.io
 
 data class Response<T : Any>(val code: Int, val body: T)
 
